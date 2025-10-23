@@ -26,7 +26,7 @@ public class EmployeeController {
 		
 		EmployeeResponseDto loginRes = service.login(loginReq);
 		
-		return ResponseEntity.ok(new ResponseMessage<EmployeeResponseDto>(HttpStatus.OK.value(), HttpStatus.OK.name(), "employee login successfully", loginRes));
+		return ResponseEntity.ok(new ResponseMessage<EmployeeResponseDto>(HttpStatus.OK.value(), HttpStatus.OK.name(), "Employee login successfully", loginRes));
 	}
 	
 	

@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.neb.dto.AddEmployeeRequestDto;
 import com.neb.dto.AddEmployeeResponseDto;
+import com.neb.dto.EmployeeResponseDto;
+import com.neb.dto.LoginRequestDto;
 import com.neb.dto.ResponseMessage;
 import com.neb.service.HrService;
 
@@ -20,6 +22,15 @@ public class HrController {
 	@Autowired
 	private HrService service;
 	
+	@PostMapping("/login")
+	public ResponseEntity<ResponseMessage<EmployeeResponseDto>> login(@RequestBody LoginRequestDto loginReq){
+		
+		EmployeeResponseDto loginRes = service.login(loginReq);
+		
+		return ResponseEntity.ok(new ResponseMessage<EmployeeResponseDto>(HttpStatus.OK.value(), HttpStatus.OK.name(), "Hr login successfully", loginRes));
+	}
+	
+	//adding employee
 	@PostMapping("/add")
 	public ResponseEntity<ResponseMessage<AddEmployeeResponseDto>> addEmployee(@RequestBody AddEmployeeRequestDto addEmpReq){
 		
