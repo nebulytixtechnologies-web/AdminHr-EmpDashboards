@@ -1,11 +1,15 @@
 package com.neb.service.impl;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.neb.dto.AddEmployeeRequestDto;
 import com.neb.dto.AddEmployeeResponseDto;
+import com.neb.dto.EmployeeDetailsResponseDto;
 import com.neb.dto.EmployeeResponseDto;
 import com.neb.dto.LoginRequestDto;
 import com.neb.entity.Employee;
@@ -59,4 +63,23 @@ public class AdminServiceImpl implements AdminService{
 
         return addEmpRes;
     }
+
+ //  ----------Get Employee List-------------
+	@Override
+	public List<EmployeeDetailsResponseDto> getEmployeeList() {
+		
+		//getting all employee list without admin
+	    List<Employee> employeeList = empRepo.findByLoginRoleNot("admin");
+	    
+	    //to-do handling if employee not found
+	    employeeList.forEach(System.out::println);
+	    
+	    List<EmployeeDetailsResponseDto> empListRes = employeeList.stream().map(emp->{
+	    	
+	    	EmployeeDetailsResponseDto empResDto = mapper.map(emp, EmployeeDetailsResponseDto.class);
+	    	return empResDto;
+	    }).collect(Collectors.toList());
+	    
+	    return empListRes;
+	}
 }

@@ -24,7 +24,7 @@ public class Employee {
     private String loginRole;  
 
     // This is only applicable if loginRole = "employee"
-    private String jobRole; // intern/developer/cloud engineer
+    private String jobRole; // intern/developer/cloud engineer/hr
 
     private String domain;//Java/.Net/Python
     private String gender;
