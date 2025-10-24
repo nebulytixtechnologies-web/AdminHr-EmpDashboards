@@ -33,9 +33,9 @@ public class AdminServiceImpl implements AdminService{
         Employee emp = empRepo.findByEmailAndPasswordAndLoginRole(
                 loginReq.getEmail(),
                 loginReq.getPassword(),
-                loginReq.getLoginRole()
-        ).orElseThrow(() -> new RuntimeException("Invalid credentials"));
-
+                loginReq.getLoginRole()	
+        ).orElseThrow(() -> new RuntimeException("Invalid credentials"+loginReq));
+       
         // map entity to DTO
         EmployeeResponseDto loginRes = mapper.map(emp, EmployeeResponseDto.class);
 

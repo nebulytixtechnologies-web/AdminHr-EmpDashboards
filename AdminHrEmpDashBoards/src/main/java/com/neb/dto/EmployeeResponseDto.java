@@ -13,6 +13,7 @@ public class EmployeeResponseDto {
     private String mobile;
     private String jobRole;
     private String domain;
+    private String loginRole;
     private String gender;
     private LocalDate joiningDate;
     private Double salary;
