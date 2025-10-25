@@ -20,12 +20,9 @@ public class Employee {
     private String email;
     private String mobile;
 
-    // This is for login role (hr/employee)
+    //This is for login role (admin/hr/employee)
     private String loginRole;  
-
-    // This is only applicable if loginRole = "employee"
     private String jobRole; // intern/developer/cloud engineer/hr
-
     private String domain;//Java/.Net/Python
     private String gender;
     private LocalDate joiningDate;
@@ -33,6 +30,12 @@ public class Employee {
     private int daysPresent;
     private int paidLeaves;
     private String password;
+    
+    private String bankAccountNumber;
+    private String bankName;
+    private String pfNumber;
+    private String panNumber;
+    private String uanNumber;
 
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Work> works = new ArrayList<>();

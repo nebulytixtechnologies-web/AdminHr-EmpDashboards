@@ -1,7 +1,14 @@
 package com.neb.entity;
 
 import java.time.LocalDate;
-import jakarta.persistence.*;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
@@ -9,18 +16,27 @@ import lombok.Data;
 @Data
 public class Payslip {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "salary_month") // avoid reserved keyword
-    private String month; // e.g., "October 2025"
-
+    private String payslipMonth;  // e.g., "August 2025"
     private LocalDate generatedDate;
+
+    // salary breakdown
+    private Double basic;
+    private Double hra;
+    private Double flexi;
     private Double grossSalary;
-    private Double deductions;
+
+    // deductions breakdown
+    private Double pfDeduction;
+    private Double profTaxDeduction;
+    private Double totalDeductions;
+
     private Double netSalary;
-    private String pdfPath; // file path where the PDF is saved
+
+    private String pdfPath;       
+    private String fileName;       
 
     @ManyToOne
     @JoinColumn(name = "employee_id")
