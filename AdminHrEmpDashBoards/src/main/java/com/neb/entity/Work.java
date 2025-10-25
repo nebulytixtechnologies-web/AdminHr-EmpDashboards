@@ -35,7 +35,6 @@ public class Work {
     // Report Details
     private String reportDetails;
     private LocalDate submittedDate;
-    private String attachmentUrl; // Optional
 
     // Relations
     @ManyToOne

@@ -20,4 +20,13 @@ public class AddEmployeeRequestDto {
     private int daysPresent;
     private int paidLeaves;
     private String password;
+    
+    private String bankAccountNumber;
+    private String bankName;
+    private String pfNumber;
+    private String panNumber;
+    private String uanNumber;
+    private String epsNumber;
+    private String esiNumber;
+    private String basic;
 }

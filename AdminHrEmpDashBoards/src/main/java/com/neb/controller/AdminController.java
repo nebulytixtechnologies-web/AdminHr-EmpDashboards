@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.neb.dto.AddEmployeeRequestDto;
 import com.neb.dto.AddEmployeeResponseDto;
+import com.neb.dto.AddWorkRequestDto;
 import com.neb.dto.EmployeeDetailsResponseDto;
 import com.neb.dto.EmployeeResponseDto;
 import com.neb.dto.LoginRequestDto;
 import com.neb.dto.ResponseMessage;
+import com.neb.dto.WorkResponseDto;
 import com.neb.service.AdminService;
 
 @RestController
@@ -54,4 +56,16 @@ public class AdminController {
 		
 		return ResponseEntity.ok(new ResponseMessage<List<EmployeeDetailsResponseDto>>(HttpStatus.OK.value(), HttpStatus.OK.name(), "All Employee fetched successfully", employeeList));
 	}
+	
+	
+	 @PostMapping("/work/add")
+    public ResponseEntity<ResponseMessage<WorkResponseDto>> addWork(@RequestBody AddWorkRequestDto dto) {
+        
+        WorkResponseDto workRes = service.createWork(dto);
+
+        return ResponseEntity.ok(
+            new ResponseMessage<>(HttpStatus.OK.value(), HttpStatus.OK.name(), "Work added successfully", workRes)
+        );
+    }
+	 
 }

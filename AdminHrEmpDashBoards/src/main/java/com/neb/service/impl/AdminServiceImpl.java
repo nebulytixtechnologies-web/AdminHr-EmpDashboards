@@ -9,11 +9,15 @@ import org.springframework.stereotype.Service;
 
 import com.neb.dto.AddEmployeeRequestDto;
 import com.neb.dto.AddEmployeeResponseDto;
+import com.neb.dto.AddWorkRequestDto;
 import com.neb.dto.EmployeeDetailsResponseDto;
 import com.neb.dto.EmployeeResponseDto;
 import com.neb.dto.LoginRequestDto;
+import com.neb.dto.WorkResponseDto;
 import com.neb.entity.Employee;
+import com.neb.entity.Work;
 import com.neb.repository.EmployeeRepository;
+import com.neb.repository.WorkRepository;
 import com.neb.service.AdminService;
 
 @Service
@@ -21,6 +25,9 @@ public class AdminServiceImpl implements AdminService{
 
 	@Autowired
     private EmployeeRepository empRepo;
+	
+	@Autowired
+    private WorkRepository workRepo;
 
     @Autowired
     private ModelMapper mapper;
@@ -82,4 +89,28 @@ public class AdminServiceImpl implements AdminService{
 	    
 	    return empListRes;
 	}
+	
+//............. adding work ..............
+	@Override
+	public WorkResponseDto createWork(AddWorkRequestDto dto) {
+        // find the employee
+        Employee employee = empRepo.findById(dto.getEmployeeId())
+            .orElseThrow(() -> new RuntimeException("Employee not found with id: " + dto.getEmployeeId()));
+
+        Work work = new Work();
+        work.setTitle(dto.getTitle());
+        work.setDescription(dto.getDescription());
+        work.setAssignedDate(dto.getAssignedDate());
+        work.setDueDate(dto.getDueDate());
+        work.setStatus(dto.getStatus());
+        work.setReportDetails(dto.getReportDetails());
+        work.setSubmittedDate(dto.getSubmittedDate());
+        work.setEmployee(employee);
+        
+        Work savedWork = workRepo.save(work);
+        
+        WorkResponseDto workDtoRes = mapper.map(savedWork, WorkResponseDto.class);
+
+        return workDtoRes;
+    }
 }

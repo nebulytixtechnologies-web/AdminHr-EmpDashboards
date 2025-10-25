@@ -46,7 +46,7 @@ public class PdfGeneratorUtil {
 
         table1.addCell(createCellOuterColumnBorders("Bank A/C No: " + emp.getBankAccountNumber()
                 + "   Bank: " + emp.getBankName(), normalFont, false, true, true, false));
-        table1.addCell(createCellOuterColumnBorders("E.P.S No: " + "emp.getEpsNumber()", normalFont, false, false, true, false));
+        table1.addCell(createCellOuterColumnBorders("E.P.S No: " + emp.getEpsNumber(), normalFont, false, false, true, false));
 
         table1.addCell(createCellOuterColumnBorders("No. of days paid: " + "p.getDaysPaid()", normalFont, false, true, true, false));
         table1.addCell(createCellOuterColumnBorders("PAN: " + emp.getPanNumber(), normalFont, false, false, true, false));
@@ -55,7 +55,7 @@ public class PdfGeneratorUtil {
         table1.addCell(createCellOuterColumnBorders("UAN: " + emp.getUanNumber(), normalFont, false, false, true, false));
 
         table1.addCell(createCellOuterColumnBorders("", normalFont, false, true, true, false));
-        table1.addCell(createCellOuterColumnBorders("ESI No.: " + "emp.getEsiNumber()", normalFont, false, false, true, false));
+        table1.addCell(createCellOuterColumnBorders("ESI No.: " + emp.getEsiNumber(), normalFont, false, false, true, false));
 
         table1.addCell(createCellOuterColumnBorders("", normalFont, false, true, true, true));
         table1.addCell(createCellOuterColumnBorders("DOJ: " + emp.getJoiningDate(), normalFont, false, false, true, true));

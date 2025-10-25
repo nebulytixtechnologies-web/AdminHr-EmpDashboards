@@ -36,6 +36,9 @@ public class Employee {
     private String pfNumber;
     private String panNumber;
     private String uanNumber;
+    private String epsNumber;
+    private String esiNumber;
+    private String basic;
 
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Work> works = new ArrayList<>();
