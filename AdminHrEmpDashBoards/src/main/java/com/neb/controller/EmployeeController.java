@@ -1,16 +1,10 @@
 package com.neb.controller;
 
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ContentDisposition;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,31 +42,5 @@ public class EmployeeController {
         PayslipDto dto = PayslipDto.fromEntity(p);
         return ResponseEntity.ok(dto);
     }
-	 
-	 
-	  @GetMapping("/payslip/{id}/download")
-    public ResponseEntity<byte[]> download(@PathVariable Long id) throws Exception {
-        byte[] pdf = service.downloadPayslip(id);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_PDF);
-        headers.setContentDisposition(ContentDisposition
-            .attachment()
-            .filename("payslip_" + id + ".pdf")
-            .build());
-
-        return ResponseEntity.ok()
-                             .headers(headers)
-                             .body(pdf);
-    }
-
-    @GetMapping("/payslip/{employeeId}")
-    public ResponseEntity<List<PayslipDto>> listPayslips(@PathVariable Long employeeId) {
-        List<PayslipDto> payslips = service.listPayslipsForEmployee(employeeId);
-        return ResponseEntity.ok(payslips);
-    }
-	  
-	 
-	
-	
+	 	
 }

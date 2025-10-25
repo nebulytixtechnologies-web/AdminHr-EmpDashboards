@@ -1,8 +1,10 @@
 package com.neb.service.impl;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Function;
+
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -14,8 +16,11 @@ import com.neb.dto.AddEmployeeResponseDto;
 import com.neb.dto.EmployeeDetailsResponseDto;
 import com.neb.dto.EmployeeResponseDto;
 import com.neb.dto.LoginRequestDto;
+import com.neb.dto.PayslipDto;
 import com.neb.entity.Employee;
+import com.neb.entity.Payslip;
 import com.neb.repository.EmployeeRepository;
+import com.neb.repository.PayslipRepository;
 import com.neb.service.HrService;
 
 @Service
@@ -23,6 +28,9 @@ public class HrServiceImpl implements HrService{
 
 	@Autowired
     private EmployeeRepository empRepo;
+	
+	@Autowired
+	private PayslipRepository payslipRepo;
 
     @Autowired
     private ModelMapper mapper;
@@ -95,4 +103,26 @@ public class HrServiceImpl implements HrService{
 		empRepo.deleteById(id);
 		return id+" Employee Deleted Successfully";
 	}
+	
+	 //downloading payslip using payslip id
+	@Override
+	 public byte[] downloadPayslip(Long payslipId) throws Exception {
+        Payslip p = payslipRepo.findById(payslipId)
+            .orElseThrow(() -> new RuntimeException("Payslip not found"));
+
+        Path path = Paths.get(p.getPdfPath());
+        return Files.readAllBytes(path);
+    }
+	 
+	 //getting list of payslips of employee using employee id
+	@Override
+     public List<PayslipDto> listPayslipsForEmployee(Long employeeId) {
+        List<Payslip> payslips = payslipRepo.findByEmployeeId(employeeId);
+        
+        List<PayslipDto> paySlipDtos = payslips.stream()
+                                        .map(PayslipDto::fromEntity)
+                                        .toList();
+        return paySlipDtos;
+    }
+
 }

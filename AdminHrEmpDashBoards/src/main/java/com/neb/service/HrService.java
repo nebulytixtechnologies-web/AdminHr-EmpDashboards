@@ -7,6 +7,7 @@ import com.neb.dto.AddEmployeeResponseDto;
 import com.neb.dto.EmployeeDetailsResponseDto;
 import com.neb.dto.EmployeeResponseDto;
 import com.neb.dto.LoginRequestDto;
+import com.neb.dto.PayslipDto;
 
 public interface HrService {
 
@@ -19,4 +20,8 @@ public interface HrService {
 	public EmployeeDetailsResponseDto getEmployee(Long id);
 	
 	public String deleteById(Long id);
+	
+	//added payslips part for getting list of payslips and downloading payslips
+	public byte[] downloadPayslip(Long payslipId) throws Exception;
+	public List<PayslipDto> listPayslipsForEmployee(Long employeeId);
 }

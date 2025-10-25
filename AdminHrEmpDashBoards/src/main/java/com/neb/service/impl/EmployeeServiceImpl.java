@@ -1,22 +1,16 @@
 package com.neb.service.impl;
 
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import com.neb.dto.EmployeeResponseDto;
 import com.neb.dto.LoginRequestDto;
-import com.neb.dto.PayslipDto;
 import com.neb.entity.Employee;
 import com.neb.entity.Payslip;
 import com.neb.repository.EmployeeRepository;
@@ -97,25 +91,5 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         return p;
 	}
-	
-	public byte[] downloadPayslip(Long payslipId) throws Exception {
-        Payslip p = payslipRepo.findById(payslipId)
-            .orElseThrow(() -> new RuntimeException("Payslip not found"));
-
-        Path path = Paths.get(p.getPdfPath());
-        return Files.readAllBytes(path);
-    }
-	
-	
-    
-     public List<PayslipDto> listPayslipsForEmployee(Long employeeId) {
-        List<Payslip> payslips = payslipRepo.findByEmployeeId(employeeId);
-        
-        List<PayslipDto> paySlipDtos = payslips.stream()
-                                        .map(PayslipDto::fromEntity)
-                                        .toList();
-        return paySlipDtos;
-    }
 	 
-
 }
