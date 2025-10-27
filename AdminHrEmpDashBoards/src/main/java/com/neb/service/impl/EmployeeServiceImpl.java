@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.neb.dto.EmployeeDetailsResponseDto;
 import com.neb.dto.EmployeeResponseDto;
 import com.neb.dto.LoginRequestDto;
 import com.neb.entity.Employee;
@@ -52,6 +53,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         ).orElseThrow(() -> new RuntimeException("Invalid credentials"));
 
         // map entity to DTO
+        System.out.println("......................");
+        System.out.println(emp.getEmail());
+        System.out.println(emp.getPassword());
+        System.out.println(emp.getLoginRole());
+        System.out.println("......................");
         EmployeeResponseDto loginRes = mapper.map(emp, EmployeeResponseDto.class);
 
         return loginRes;
@@ -112,8 +118,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         return p;
 	}
 	 // ✅ Get employee details by EMAIL
-    public Employee getEmployeeByEmail(String email) {
-        return empRepo.findByEmail(email).orElse(null);
+    public EmployeeDetailsResponseDto getEmployeeByEmail(String email) {
+    	System.out.println(email);
+    	Employee emp = empRepo.findByEmail(email).orElse(null);
+    	EmployeeDetailsResponseDto empdetailsDto = mapper.map(emp, EmployeeDetailsResponseDto.class);
+        return empdetailsDto;
     }
 
 

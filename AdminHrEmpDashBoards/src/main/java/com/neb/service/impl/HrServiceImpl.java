@@ -125,4 +125,14 @@ public class HrServiceImpl implements HrService{
         return paySlipDtos;
     }
 
+	@Override
+	public EmployeeDetailsResponseDto addAttendence(Long id, int days) {
+		
+		Employee emp = empRepo.findById(id).orElseThrow(()->new RuntimeException("employee not found with id:"+id));
+		emp.setDaysPresent(days);
+		Employee savedemp = empRepo.save(emp);
+		EmployeeDetailsResponseDto updateEmpDto= mapper.map(savedemp, EmployeeDetailsResponseDto.class);
+		return updateEmpDto;
+	}
+
 }

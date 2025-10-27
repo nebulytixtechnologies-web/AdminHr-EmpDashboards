@@ -4,6 +4,7 @@ package com.neb.service;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.neb.dto.EmployeeDetailsResponseDto;
 import com.neb.dto.EmployeeResponseDto;
 import com.neb.dto.LoginRequestDto;
 import com.neb.entity.Employee;
@@ -17,5 +18,5 @@ public interface EmployeeService {
 	public Employee getEmployeeById(Long id);
 	public List<Work> getTasksByEmployee(Long employeeId);
     public Work submitReport(Long taskId, String reportDetails, LocalDate submittedDate);
-    public Employee getEmployeeByEmail(String email);
+    public EmployeeDetailsResponseDto getEmployeeByEmail(String email);
 }

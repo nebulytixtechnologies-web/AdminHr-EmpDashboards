@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import com.neb.dto.EmployeeDetailsResponseDto;
 import com.neb.dto.EmployeeResponseDto;
 import com.neb.dto.GeneratePayslipRequest;
 import com.neb.dto.LoginRequestDto;
@@ -57,8 +57,8 @@ public class EmployeeController {
         return new ResponseMessage<>(HttpStatus.OK.value(), HttpStatus.OK.name(), "Employee fetched successfully", emp);
     }
     @GetMapping("/details/{email}")
-    public ResponseEntity<ResponseMessage<Employee>> getEmployeeByEmail(@PathVariable String email) {
-        Employee emp = employeeService.getEmployeeByEmail(email);	
+    public ResponseEntity<ResponseMessage<EmployeeDetailsResponseDto>> getEmployeeByEmail(@PathVariable String email) {
+    	EmployeeDetailsResponseDto emp = employeeService.getEmployeeByEmail(email);	
         if (emp == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new ResponseMessage<>(404, "NOT_FOUND", "Employee not found"));

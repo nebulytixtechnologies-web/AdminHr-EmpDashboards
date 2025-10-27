@@ -24,4 +24,5 @@ public interface HrService {
 	//added payslips part for getting list of payslips and downloading payslips
 	public byte[] downloadPayslip(Long payslipId) throws Exception;
 	public List<PayslipDto> listPayslipsForEmployee(Long employeeId);
+	public EmployeeDetailsResponseDto addAttendence(Long id,int days);
 }
