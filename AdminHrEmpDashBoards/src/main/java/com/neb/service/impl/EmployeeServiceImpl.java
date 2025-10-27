@@ -72,11 +72,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         p.setEmployee(emp);
         p.setPayslipMonth(monthYear);
         p.setGeneratedDate(LocalDate.now());
+        p.setLocation("FLAT NO 501B,PSR PRIME TOWERS,BESIDE DLF,GACHIBOWLI,500032");
 
-        p.setBasic(emp.getSalary() * 0.53);
-        p.setHra(emp.getSalary() * 0.20);
-        p.setFlexi(emp.getSalary() * 0.27);
-        double gross = p.getBasic() + p.getHra() + p.getFlexi();
+        double salary = emp.getSalary();
+        p.setBasic(salary * 0.53);
+        p.setHra(salary * 0.20);
+        p.setFlexi(salary * 0.27);
+        double gross = p.getBasic() + p.getHra() + p.getFlexi();//
         p.setGrossSalary(gross);
 
         p.setPfDeduction(p.getBasic() * 0.12);
@@ -84,7 +86,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         double ded = p.getPfDeduction() + p.getProfTaxDeduction();
         p.setTotalDeductions(ded);
 
-        p.setNetSalary(gross - ded);
+        double net = gross - ded;
+        p.setNetSalary(net);
+        
+        p.setBalance(gross);
+        p.setAggrgDeduction(ded);
+        p.setIncHdSalary(net);
+        p.setTaxCredit(net*0.05);//random values added
 
         p = payslipRepo.save(p);
         

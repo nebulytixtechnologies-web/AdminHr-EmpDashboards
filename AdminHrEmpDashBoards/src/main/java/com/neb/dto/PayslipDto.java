@@ -42,6 +42,13 @@ public class PayslipDto {
     private String employeePfNumber;
     private String employeePanNumber;
     private String employeeUanNumber;
+    
+    //newly added
+    private String location;
+    private Double balance;
+    private Double aggrgDeduction;
+    private Double incHdSalary;      // note: camelCase, maybe rename from “IncHdSalary”
+    private Double taxCredit;
 
     // mapping from entity
     public static PayslipDto fromEntity(Payslip p) {
@@ -59,6 +66,13 @@ public class PayslipDto {
         dto.setNetSalary(p.getNetSalary());
         dto.setFileName(p.getFileName());
         dto.setPdfPath(p.getPdfPath());
+        
+        dto.setLocation(p.getLocation());
+        dto.setBalance(p.getBalance());
+        dto.setAggrgDeduction(p.getAggrgDeduction());
+        dto.setIncHdSalary(p.getIncHdSalary());
+        dto.setTaxCredit(p.getTaxCredit());
+
 
         if (p.getEmployee() != null) {
             Employee emp = p.getEmployee();

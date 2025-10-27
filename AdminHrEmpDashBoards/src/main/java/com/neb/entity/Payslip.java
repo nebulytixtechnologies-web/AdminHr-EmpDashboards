@@ -36,7 +36,14 @@ public class Payslip {
     private Double netSalary;
 
     private String pdfPath;       
-    private String fileName;       
+    private String fileName;   
+    
+  //new properties added
+    private String location;
+    private Double balance;
+    private Double aggrgDeduction;
+    private Double IncHdSalary;
+    private Double taxCredit;
 
     @ManyToOne
     @JoinColumn(name = "employee_id")

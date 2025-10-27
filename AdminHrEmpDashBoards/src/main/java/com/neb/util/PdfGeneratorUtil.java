@@ -23,13 +23,14 @@ public class PdfGeneratorUtil {
         document.open();
 
         // Logo + Company Name
-        Image logo = Image.getInstance("C:/Users/USER/git/AdminHr-EmpDashboards/AdminHrEmpDashBoards/src/main/webapp/images/NebulytixLogo.jpg");
+        Image logo = Image.getInstance("E:/NEBULYTIX TECHNOLOGIES/files/nebTechLogo.jpg");
         logo.scaleToFit(200f, 200f);
         logo.setAlignment(Element.ALIGN_RIGHT);
         document.add(logo);
 
         Font boldFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12);
         Font normalFont = FontFactory.getFont(FontFactory.HELVETICA, 10);
+        Font normalFont2 = FontFactory.getFont(FontFactory.HELVETICA, 8);
 
         document.add(new Paragraph("NEBULYTIX TECHNOLOGIES PVT LTD", boldFont));
         document.add(new Paragraph("Payslip for the month: " + p.getPayslipMonth(), normalFont));
@@ -41,14 +42,14 @@ public class PdfGeneratorUtil {
         PdfPTable table1 = new PdfPTable(2);
         table1.setWidthPercentage(100f);
 
-        table1.addCell(createCellOuterColumnBorders("Location: " + "p.getLocation()", normalFont, true, true, true, false));
+        table1.addCell(createCellOuterColumnBorders("Location: " + p.getLocation(), normalFont, true, true, true, false));
         table1.addCell(createCellOuterColumnBorders("P.F.No: " + emp.getPfNumber(), normalFont, true, false, true, false));
 
         table1.addCell(createCellOuterColumnBorders("Bank A/C No: " + emp.getBankAccountNumber()
                 + "   Bank: " + emp.getBankName(), normalFont, false, true, true, false));
         table1.addCell(createCellOuterColumnBorders("E.P.S No: " + emp.getEpsNumber(), normalFont, false, false, true, false));
 
-        table1.addCell(createCellOuterColumnBorders("No. of days paid: " + "p.getDaysPaid()", normalFont, false, true, true, false));
+        table1.addCell(createCellOuterColumnBorders("No. of days paid: " + emp.getDaysPresent(), normalFont, false, true, true, false));
         table1.addCell(createCellOuterColumnBorders("PAN: " + emp.getPanNumber(), normalFont, false, false, true, false));
 
         table1.addCell(createCellOuterColumnBorders("", normalFont, false, true, true, false));
@@ -112,22 +113,22 @@ public class PdfGeneratorUtil {
         table3.addCell(createCellOuterColumnBorders("", normalFont, false, true, true, false));
         table3.addCell(createCellOuterColumnBorders("", normalFont, false, false, true, false));
         table3.addCell(createCellOuterColumnBorders("", normalFont, false, false, true, false));
-        table3.addCell(createCellOuterColumnBorders("Balance: " + "p.getBalance()", normalFont, false, false, true, false));
+        table3.addCell(createCellOuterColumnBorders("Balance: " + p.getBalance(), normalFont, false, false, true, false));
 
         table3.addCell(createCellOuterColumnBorders("", normalFont, false, true, true, false));
         table3.addCell(createCellOuterColumnBorders("", normalFont, false, false, true, false));
         table3.addCell(createCellOuterColumnBorders("", normalFont, false, false, true, false));
-        table3.addCell(createCellOuterColumnBorders("Agg Deduction: " + "p.getAggDeduction()", normalFont, false, false, true, false));
+        table3.addCell(createCellOuterColumnBorders("Agg Deduction: " + p.getAggrgDeduction(), normalFont, false, false, true, false));
 
         table3.addCell(createCellOuterColumnBorders("", normalFont, false, true, true, false));
         table3.addCell(createCellOuterColumnBorders("", normalFont, false, false, true, false));
         table3.addCell(createCellOuterColumnBorders("", normalFont, false, false, true, false));
-        table3.addCell(createCellOuterColumnBorders("Income under Hd Salary: " + "p.getIncomeUnderHeadSalary()", normalFont, false, false, true, false));
+        table3.addCell(createCellOuterColumnBorders("Income under Hd Salary: " + p.getIncHdSalary(), normalFont, false, false, true, false));
 
         table3.addCell(createCellOuterColumnBorders("", normalFont, true, true, true, true));
         table3.addCell(createCellOuterColumnBorders("", normalFont, true, false, true, true));
         table3.addCell(createCellOuterColumnBorders("", normalFont, true, false, true, true));
-        table3.addCell(createCellOuterColumnBorders("Tax credit: " + "p.getTaxCredit()", normalFont, true, false, true, true));
+        table3.addCell(createCellOuterColumnBorders("Tax credit: " + p.getTaxCredit(), normalFont, true, false, true, true));
 
         document.add(table3);
 
