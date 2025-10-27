@@ -1,5 +1,6 @@
 package com.neb.service.impl;
-
+import java.time.LocalDate;
+//original 
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -7,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.neb.constants.WorkStatus;
 import com.neb.dto.AddEmployeeRequestDto;
 import com.neb.dto.AddEmployeeResponseDto;
 import com.neb.dto.AddWorkRequestDto;
@@ -91,26 +93,55 @@ public class AdminServiceImpl implements AdminService{
 	}
 	
 //............. adding work ..............
-	@Override
-	public WorkResponseDto createWork(AddWorkRequestDto dto) {
-        // find the employee
-        Employee employee = empRepo.findById(dto.getEmployeeId())
-            .orElseThrow(() -> new RuntimeException("Employee not found with id: " + dto.getEmployeeId()));
+	 // ✅ Assign Task to Employee
+    public WorkResponseDto assignWork(AddWorkRequestDto request) {
+        Employee emp = empRepo.findById(request.getEmployeeId())
+                .orElseThrow(() -> new RuntimeException("Employee not found"));
 
         Work work = new Work();
-        work.setTitle(dto.getTitle());
-        work.setDescription(dto.getDescription());
-        work.setAssignedDate(dto.getAssignedDate());
-        work.setDueDate(dto.getDueDate());
-        work.setStatus(dto.getStatus());
-        work.setReportDetails(dto.getReportDetails());
-        work.setSubmittedDate(dto.getSubmittedDate());
-        work.setEmployee(employee);
-        
-        Work savedWork = workRepo.save(work);
-        
-        WorkResponseDto workDtoRes = mapper.map(savedWork, WorkResponseDto.class);
+        work.setTitle(request.getTitle());
+        work.setDescription(request.getDescription());
+        work.setAssignedDate(LocalDate.now());
+        work.setDueDate(request.getDueDate());
+        work.setStatus(WorkStatus.ASSIGNED);
+        work.setEmployee(emp);
 
-        return workDtoRes;
+        workRepo.save(work);
+
+        return mapToDto(work);
     }
-}
+
+    // ✅ Fetch All Work/Tasks
+    public List<WorkResponseDto> getAllWorks() {
+        return workRepo.findAll()
+                .stream()
+                .map(this::mapToDto)
+                .collect(Collectors.toList());
+    }
+
+    // ✅ Fetch Work by Employee
+    public List<WorkResponseDto> getWorkByEmployee(Long empId) {
+        return workRepo.findByEmployeeId(empId)
+                .stream()
+                .map(this::mapToDto)
+                .collect(Collectors.toList());
+    }
+
+    // ✅ Helper Method
+    private WorkResponseDto mapToDto(Work work) {
+        WorkResponseDto dto = new WorkResponseDto();
+        dto.setId(work.getId());
+        dto.setTitle(work.getTitle());
+        dto.setDescription(work.getDescription());
+        dto.setAssignedDate(work.getAssignedDate());
+        dto.setDueDate(work.getDueDate());
+        dto.setStatus(work.getStatus());
+        dto.setReportDetails(work.getReportDetails());
+        dto.setSubmittedDate(work.getSubmittedDate());
+        dto.setEmployeeId(work.getEmployee().getId());
+        dto.setEmployeeName(work.getEmployee().getFirstName() + " " + work.getEmployee().getLastName());
+        dto.setEmployeeEmail(work.getEmployee().getEmail());
+        return dto;
+    }
+
+	}

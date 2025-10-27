@@ -1,8 +1,9 @@
 package com.neb.service.impl;
-
+//original
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +14,10 @@ import com.neb.dto.EmployeeResponseDto;
 import com.neb.dto.LoginRequestDto;
 import com.neb.entity.Employee;
 import com.neb.entity.Payslip;
+import com.neb.entity.Work;
 import com.neb.repository.EmployeeRepository;
 import com.neb.repository.PayslipRepository;
+import com.neb.repository.WorkRepository;
 import com.neb.service.EmployeeService;
 import com.neb.util.PdfGeneratorUtil;
 
@@ -29,6 +32,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
     private ModelMapper mapper;
+    
+    @Autowired
+    private WorkRepository workRepository;
+
     
     @Value("${payslip.base-folder}")
     private String baseFolder;
@@ -49,6 +56,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         return loginRes;
     }
+    //Getting employee By ID
+    public Employee getEmployeeById(Long id) {
+        return empRepo.findById(id).orElseThrow(() -> new RuntimeException("Employee not found"));
+    }
+    
 	@Override
 	public Payslip generatePayslip(Long employeeId, String monthYear) throws Exception{
 		
@@ -91,5 +103,23 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         return p;
 	}
+	 // ✅ Get employee details by EMAIL
+    public Employee getEmployeeByEmail(String email) {
+        return empRepo.findByEmail(email).orElse(null);
+    }
+
+
+    public List<Work> getTasksByEmployee(Long employeeId) {
+        Employee emp = getEmployeeById(employeeId);
+        return workRepository.findByEmployee(emp);
+    }
+
+    public Work submitReport(Long taskId, String reportDetails, LocalDate submittedDate) {
+        Work task = workRepository.findById(taskId).orElseThrow(() -> new RuntimeException("Task not found"));
+        task.setReportDetails(reportDetails);
+        task.setSubmittedDate(submittedDate);
+        task.setStatus(com.neb.constants.WorkStatus.COMPLETED);
+        return workRepository.save(task);
+    }
 	 
 }

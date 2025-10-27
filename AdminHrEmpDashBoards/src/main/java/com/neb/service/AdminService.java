@@ -15,6 +15,8 @@ public interface AdminService {
 	public EmployeeResponseDto login(LoginRequestDto loginReq);
 	public AddEmployeeResponseDto addEmployee(AddEmployeeRequestDto addEmpReq);
 	public List<EmployeeDetailsResponseDto> getEmployeeList();
-	public WorkResponseDto createWork(AddWorkRequestDto dto);
+	public WorkResponseDto assignWork(AddWorkRequestDto request);
+	public List<WorkResponseDto> getAllWorks();
+	public List<WorkResponseDto> getWorkByEmployee(Long empId);
 	
 }

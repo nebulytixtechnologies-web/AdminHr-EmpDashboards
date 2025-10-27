@@ -18,4 +18,5 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     // 2️ Get all employees excluding admin and hr
     List<Employee> findByLoginRoleNotIn(List<String> roles);
+    Optional<Employee> findByEmail(String email);
 }

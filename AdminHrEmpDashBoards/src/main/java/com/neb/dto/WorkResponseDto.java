@@ -14,7 +14,8 @@ public class WorkResponseDto {
     private WorkStatus status;
     private String reportDetails;
     private LocalDate submittedDate;
+    private String attachmentUrl;
     private Long employeeId;
-    private String employeeFirstName;
-    private String employeeLastName;
+    private String employeeName;
+    private String employeeEmail;
 }

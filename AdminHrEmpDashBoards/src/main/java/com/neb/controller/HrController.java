@@ -1,5 +1,5 @@
 package com.neb.controller;
-
+//Origi
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +20,12 @@ import com.neb.dto.AddEmployeeRequestDto;
 import com.neb.dto.AddEmployeeResponseDto;
 import com.neb.dto.EmployeeDetailsResponseDto;
 import com.neb.dto.EmployeeResponseDto;
+import com.neb.dto.GeneratePayslipRequest;
 import com.neb.dto.LoginRequestDto;
 import com.neb.dto.PayslipDto;
 import com.neb.dto.ResponseMessage;
+import com.neb.entity.Payslip;
+import com.neb.service.EmployeeService;
 import com.neb.service.HrService;
 
 @RestController
@@ -32,6 +35,10 @@ public class HrController {
 
 	@Autowired
 	private HrService service;
+	
+	@Autowired
+	private EmployeeService employeeService;
+	
 	
 	@PostMapping("/login")
 	public ResponseEntity<ResponseMessage<EmployeeResponseDto>> login(@RequestBody LoginRequestDto loginReq){
@@ -95,7 +102,13 @@ public class HrController {
         List<PayslipDto> payslips = service.listPayslipsForEmployee(employeeId);
         return ResponseEntity.ok(payslips);
     }
-	
+    
+    @PostMapping("/payslip/generate")
+    public ResponseEntity<PayslipDto> generate(@RequestBody GeneratePayslipRequest request) throws Exception {
+        Payslip p = employeeService.generatePayslip(request.getEmployeeId(), request.getMonthYear());
+        PayslipDto dto = PayslipDto.fromEntity(p);
+        return ResponseEntity.ok(dto);
+    }
 	 
 	
 
