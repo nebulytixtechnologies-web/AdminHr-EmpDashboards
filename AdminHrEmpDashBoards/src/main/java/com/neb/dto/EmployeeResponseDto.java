@@ -11,6 +11,7 @@ public class EmployeeResponseDto {
     private String lastName;
     private String email;
     private String mobile;
+    private String cardNumber;//newly added
     private String jobRole;
     private String domain;
     private String loginRole;
@@ -19,4 +20,5 @@ public class EmployeeResponseDto {
     private Double salary;
     private int daysPresent;
     private int paidLeaves;
+    
 }

@@ -16,6 +16,7 @@ import com.neb.dto.LoginRequestDto;
 import com.neb.entity.Employee;
 import com.neb.entity.Payslip;
 import com.neb.entity.Work;
+import com.neb.exception.CustomeException;
 import com.neb.repository.EmployeeRepository;
 import com.neb.repository.PayslipRepository;
 import com.neb.repository.WorkRepository;
@@ -50,21 +51,16 @@ public class EmployeeServiceImpl implements EmployeeService {
                 loginReq.getEmail(),
                 loginReq.getPassword(),
                 loginReq.getLoginRole()
-        ).orElseThrow(() -> new RuntimeException("Invalid credentials"));
+        ).orElseThrow(() -> new CustomeException("Invalid credentials. Please check your email and password and login role"));
 
         // map entity to DTO
-        System.out.println("......................");
-        System.out.println(emp.getEmail());
-        System.out.println(emp.getPassword());
-        System.out.println(emp.getLoginRole());
-        System.out.println("......................");
         EmployeeResponseDto loginRes = mapper.map(emp, EmployeeResponseDto.class);
 
         return loginRes;
     }
     //Getting employee By ID
     public Employee getEmployeeById(Long id) {
-        return empRepo.findById(id).orElseThrow(() -> new RuntimeException("Employee not found"));
+        return empRepo.findById(id).orElseThrow(() -> new CustomeException("Employee not found with id: "+id));
     }
     
 	@Override
@@ -72,7 +68,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		
 		
 		Employee emp = empRepo.findById(employeeId)
-	            .orElseThrow(() -> new RuntimeException("Employee not found"));
+	            .orElseThrow(() -> new CustomeException("Employee not found with id: "+employeeId));
 		
 		Payslip p = new Payslip();
         p.setEmployee(emp);
@@ -117,22 +113,25 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         return p;
 	}
-	 // ✅ Get employee details by EMAIL
+	 // Get employee details by EMAIL
     public EmployeeDetailsResponseDto getEmployeeByEmail(String email) {
     	System.out.println(email);
-    	Employee emp = empRepo.findByEmail(email).orElse(null);
+    	Employee emp = empRepo.findByEmail(email).orElseThrow(()->new CustomeException("Employee not found with email id :"+email));
     	EmployeeDetailsResponseDto empdetailsDto = mapper.map(emp, EmployeeDetailsResponseDto.class);
         return empdetailsDto;
     }
 
-
     public List<Work> getTasksByEmployee(Long employeeId) {
         Employee emp = getEmployeeById(employeeId);
-        return workRepository.findByEmployee(emp);
+        List<Work> workListbyEmployee = workRepository.findByEmployee(emp);
+        if(workListbyEmployee==null) {
+        	throw new CustomeException("work list is empty for employee with id: "+emp.getId());
+        }
+        return workListbyEmployee;
     }
 
     public Work submitReport(Long taskId, String reportDetails, LocalDate submittedDate) {
-        Work task = workRepository.findById(taskId).orElseThrow(() -> new RuntimeException("Task not found"));
+        Work task = workRepository.findById(taskId).orElseThrow(() -> new CustomeException("Task not found with taskId :"+taskId));
         task.setReportDetails(reportDetails);
         task.setSubmittedDate(submittedDate);
         task.setStatus(com.neb.constants.WorkStatus.COMPLETED);

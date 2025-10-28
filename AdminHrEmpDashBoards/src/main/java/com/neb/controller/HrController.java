@@ -53,6 +53,7 @@ public class HrController {
 	@PostMapping("/add")
 	public ResponseEntity<ResponseMessage<AddEmployeeResponseDto>> addEmployee(@RequestBody AddEmployeeRequestDto addEmpReq){
 		
+		System.out.println(addEmpReq);
 		AddEmployeeResponseDto addEmpRes = service.addEmployee(addEmpReq);
 		
 		return ResponseEntity.ok(new ResponseMessage<AddEmployeeResponseDto>(HttpStatus.OK.value(), HttpStatus.OK.name(), "employee added successfully", addEmpRes));

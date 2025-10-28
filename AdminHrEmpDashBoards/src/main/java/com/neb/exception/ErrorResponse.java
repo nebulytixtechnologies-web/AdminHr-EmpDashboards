@@ -20,14 +20,12 @@ public class ErrorResponse {
     private String message;
     private String path;
 
-    public ErrorResponse(int status, String error, String message, String path) {
+    public ErrorResponse(int statusCode, String errorMessage, String message, String path) {
         this.timestamp = LocalDateTime.now();
-        this.status = status;
-        this.error = error;
+        this.status = statusCode;
+        this.error = errorMessage;
         this.message = message;
         this.path = path;
     }
-
-    // Getters & Setters
 }
 

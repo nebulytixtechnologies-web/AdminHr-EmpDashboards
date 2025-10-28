@@ -10,4 +10,5 @@ public class AddEmployeeResponseDto {
     private String loginRole;
     private String jobRole;
     private String password;
+    private String cardNumber;
 }

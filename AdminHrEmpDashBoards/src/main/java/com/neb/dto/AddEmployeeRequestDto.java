@@ -10,6 +10,7 @@ public class AddEmployeeRequestDto {
     private String lastName;
     private String email;
     private String mobile;
+    private String cardNumber;
 
     private String loginRole;   // "hr" or "employee"
     private String jobRole;     // only required if loginRole = "employee"
@@ -28,5 +29,4 @@ public class AddEmployeeRequestDto {
     private String uanNumber;
     private String epsNumber;
     private String esiNumber;
-    private String basic;
 }

@@ -18,6 +18,7 @@ import com.neb.dto.LoginRequestDto;
 import com.neb.dto.WorkResponseDto;
 import com.neb.entity.Employee;
 import com.neb.entity.Work;
+import com.neb.exception.CustomeException;
 import com.neb.repository.EmployeeRepository;
 import com.neb.repository.WorkRepository;
 import com.neb.service.AdminService;
@@ -43,7 +44,7 @@ public class AdminServiceImpl implements AdminService{
                 loginReq.getEmail(),
                 loginReq.getPassword(),
                 loginReq.getLoginRole()	
-        ).orElseThrow(() -> new RuntimeException("Invalid credentials"+loginReq));
+        ).orElseThrow(() -> new CustomeException("Invalid credentials. Please check your email and password and login role"));
        
         // map entity to DTO
         EmployeeResponseDto loginRes = mapper.map(emp, EmployeeResponseDto.class);
@@ -58,7 +59,7 @@ public class AdminServiceImpl implements AdminService{
 
         // check if employee with same email already exists
         if (empRepo.existsByEmail(addEmpReq.getEmail())) {
-            throw new RuntimeException("Employee with email " + addEmpReq.getEmail() + " already exists");
+        	throw new CustomeException("Admin with email :" + addEmpReq.getEmail() + " already exists");
         }
 
         // map DTO to entity
@@ -80,8 +81,9 @@ public class AdminServiceImpl implements AdminService{
 		//getting all employee list without admin
 	    List<Employee> employeeList = empRepo.findByLoginRoleNot("admin");
 	    
-	    //to-do handling if employee not found
-	    employeeList.forEach(System.out::println);
+	    if(employeeList==null) {
+	    	throw new CustomeException("Employees not found");
+	    }
 	    
 	    List<EmployeeDetailsResponseDto> empListRes = employeeList.stream().map(emp->{
 	    	
@@ -93,10 +95,10 @@ public class AdminServiceImpl implements AdminService{
 	}
 	
 //............. adding work ..............
-	 // ✅ Assign Task to Employee
+	 // Assign Task to Employee
     public WorkResponseDto assignWork(AddWorkRequestDto request) {
         Employee emp = empRepo.findById(request.getEmployeeId())
-                .orElseThrow(() -> new RuntimeException("Employee not found"));
+                .orElseThrow(() -> new CustomeException("Employee not found with id :"+request.getEmployeeId()));
 
         Work work = new Work();
         work.setTitle(request.getTitle());
@@ -106,27 +108,40 @@ public class AdminServiceImpl implements AdminService{
         work.setStatus(WorkStatus.ASSIGNED);
         work.setEmployee(emp);
 
-        workRepo.save(work);
+        Work savedWork= workRepo.save(work);
+        WorkResponseDto workRes = mapToDto(savedWork);
 
-        return mapToDto(work);
+        return workRes;
     }
 
+    
     // ✅ Fetch All Work/Tasks
     public List<WorkResponseDto> getAllWorks() {
-        return workRepo.findAll()
+    	List<Work> allWork = workRepo.findAll();
+    	if(allWork==null) {
+    		throw new CustomeException("works not found");
+    	}
+        return allWork
                 .stream()
                 .map(this::mapToDto)
                 .collect(Collectors.toList());
+    	
     }
 
     // ✅ Fetch Work by Employee
     public List<WorkResponseDto> getWorkByEmployee(Long empId) {
-        return workRepo.findByEmployeeId(empId)
+    	
+    	List<Work> workListByEmployeeId = workRepo.findByEmployeeId(empId);
+    	if(workListByEmployeeId==null) {
+    		throw new CustomeException("works not found for employee with employee id :"+empId);
+    	}
+        return workListByEmployeeId
                 .stream()
                 .map(this::mapToDto)
                 .collect(Collectors.toList());
+    
     }
-
+    
     // ✅ Helper Method
     private WorkResponseDto mapToDto(Work work) {
         WorkResponseDto dto = new WorkResponseDto();

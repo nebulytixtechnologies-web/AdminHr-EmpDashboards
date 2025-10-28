@@ -12,6 +12,7 @@ public class EmployeeDetailsResponseDto {
     private String lastName;
     private String email;
     private String mobile;
+    private String cardNumber;//newly added
     private String jobRole;     // intern/developer/cloud engineer/hr
     private String domain;      // Java / .Net / Python
     private String gender;
@@ -19,5 +20,6 @@ public class EmployeeDetailsResponseDto {
     private Double salary;
     private int daysPresent;
     private int paidLeaves;
+    
     
 }

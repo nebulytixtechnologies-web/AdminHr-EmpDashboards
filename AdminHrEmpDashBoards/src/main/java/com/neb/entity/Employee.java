@@ -19,6 +19,7 @@ public class Employee {
     private String lastName;
     private String email;
     private String mobile;
+    private String cardNumber;
 
     //This is for login role (admin/hr/employee)
     private String loginRole;  
@@ -38,7 +39,6 @@ public class Employee {
     private String uanNumber;
     private String epsNumber;
     private String esiNumber;
-    private String basic;
 
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Work> works = new ArrayList<>();
