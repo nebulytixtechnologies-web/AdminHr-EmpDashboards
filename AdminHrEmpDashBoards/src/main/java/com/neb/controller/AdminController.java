@@ -41,7 +41,7 @@ public class AdminController {
 	}
 	
 	//for adding Hr
-	@PostMapping("/add")
+	@PostMapping("/addhr")
 	public ResponseEntity<ResponseMessage<AddEmployeeResponseDto>> addEmployee(@RequestBody AddEmployeeRequestDto addEmpReq){
 		
 		AddEmployeeResponseDto addEmpRes = adminService.addEmployee(addEmpReq);

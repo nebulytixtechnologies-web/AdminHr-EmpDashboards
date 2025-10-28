@@ -23,7 +23,8 @@ public class PdfGeneratorUtil {
         document.open();
 
         // Logo + Company Name
-        Image logo = Image.getInstance("E:/NEBULYTIX TECHNOLOGIES/files/nebTechLogo.jpg");
+        
+        Image logo = Image.getInstance("C:\\Users\\USER\\git\\AdminHr-EmpDashboards\\AdminHrEmpDashBoards\\src\\main\\webapp\\images\\NebulytixLogo.jpg");
         logo.scaleToFit(200f, 200f);
         logo.setAlignment(Element.ALIGN_RIGHT);
         document.add(logo);

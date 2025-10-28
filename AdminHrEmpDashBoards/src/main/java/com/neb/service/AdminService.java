@@ -18,5 +18,6 @@ public interface AdminService {
 	public WorkResponseDto assignWork(AddWorkRequestDto request);
 	public List<WorkResponseDto> getAllWorks();
 	public List<WorkResponseDto> getWorkByEmployee(Long empId);
+
 	
 }
