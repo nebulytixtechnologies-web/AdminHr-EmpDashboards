@@ -142,4 +142,37 @@ public class HrServiceImpl implements HrService{
 		return updateEmpDto;
 	}
 
+    // ✅ ---------- UPDATE EMPLOYEE DETAILS ----------
+    @Override
+    public EmployeeDetailsResponseDto updateEmployee(Long id, AddEmployeeRequestDto updateReq) {
+        Employee emp = empRepo.findById(id)
+                .orElseThrow(() -> new CustomeException("Employee not found with id: " + id));
+
+        // --- Update all fields from DTO ---
+        emp.setFirstName(updateReq.getFirstName());
+        emp.setLastName(updateReq.getLastName());
+        emp.setEmail(updateReq.getEmail());
+        emp.setMobile(updateReq.getMobile());
+        emp.setCardNumber(updateReq.getCardNumber());
+        emp.setLoginRole(updateReq.getLoginRole());
+        emp.setJobRole(updateReq.getJobRole());
+        emp.setDomain(updateReq.getDomain());
+        emp.setGender(updateReq.getGender());
+        emp.setJoiningDate(updateReq.getJoiningDate());
+        emp.setSalary(updateReq.getSalary());
+        emp.setDaysPresent(updateReq.getDaysPresent());
+        emp.setPaidLeaves(updateReq.getPaidLeaves());
+        emp.setPassword(updateReq.getPassword());
+        emp.setBankAccountNumber(updateReq.getBankAccountNumber());
+        emp.setBankName(updateReq.getBankName());
+        emp.setPfNumber(updateReq.getPfNumber());
+        emp.setPanNumber(updateReq.getPanNumber());
+        emp.setUanNumber(updateReq.getUanNumber());
+        emp.setEpsNumber(updateReq.getEpsNumber());
+        emp.setEsiNumber(updateReq.getEsiNumber());
+
+        Employee updatedEmp = empRepo.save(emp);
+        return mapper.map(updatedEmp, EmployeeDetailsResponseDto.class);
+    }
+
 }

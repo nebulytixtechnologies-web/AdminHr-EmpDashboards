@@ -119,6 +119,20 @@ public class HrController {
     	
     	return ResponseEntity.ok(new ResponseMessage<EmployeeDetailsResponseDto>(HttpStatus.OK.value(), HttpStatus.OK.name(), "employee details updated", updatedEmp));
     }
-	
+    // updating employee
+    @PutMapping("/update/{id}")
+    public ResponseEntity<ResponseMessage<EmployeeDetailsResponseDto>> updateEmployee(
+            @PathVariable Long id,
+            @RequestBody AddEmployeeRequestDto updateReq) {
 
+        EmployeeDetailsResponseDto updatedEmp = service.updateEmployee(id, updateReq);
+        return ResponseEntity.ok(new ResponseMessage<>(
+                HttpStatus.OK.value(),
+                HttpStatus.OK.name(),
+                "Employee details updated successfully",
+                updatedEmp));
+    }
+    
+  
+  
 }
