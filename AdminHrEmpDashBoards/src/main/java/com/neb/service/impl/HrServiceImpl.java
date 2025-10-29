@@ -24,6 +24,36 @@ import com.neb.repository.EmployeeRepository;
 import com.neb.repository.PayslipRepository;
 import com.neb.service.HrService;
 
+/**
+ * ---------------------------------------------------------------
+ * File Name   : HrServiceImpl.java
+ * Package     : com.neb.service.impl
+ * ---------------------------------------------------------------
+ * Purpose :
+ *   Implements the core business logic for HR-related operations 
+ *   such as employee management, attendance tracking, payslip 
+ *   handling, and HR authentication.
+ *
+ * Description :
+ *   - This service handles all HR functionalities by implementing 
+ *     the HrService interface.
+ *   - Includes methods for adding, updating, retrieving, and deleting 
+ *     employee records.
+ *   - Provides functionality for managing payslips and employee attendance.
+ *   - Integrates ModelMapper for DTO mapping and repositories for 
+ *     database operations.
+ *
+ * Dependencies :
+ *   - EmployeeRepository → For CRUD operations on Employee entities.
+ *   - PayslipRepository  → For accessing and managing payslip data.
+ *   - ModelMapper        → For mapping between DTOs and entity objects.
+ *
+ * Result :
+ *   Enables HR staff to manage employee information efficiently, 
+ *   ensuring seamless backend integration with frontend interfaces.
+ * ---------------------------------------------------------------
+ */
+
 @Service
 public class HrServiceImpl implements HrService{
 
@@ -36,7 +66,14 @@ public class HrServiceImpl implements HrService{
     @Autowired
     private ModelMapper mapper;
     
- // --------- LOGIN ----------
+                             // --------- LOGIN ----------
+    /**
+     * Validates HR or employee login credentials.
+     *
+     * @param loginReq object containing email, password, and login role
+     * @return EmployeeResponseDto with the authenticated employee’s details
+     * @throws CustomeException if the provided credentials are invalid
+     */
     @Override
     public EmployeeResponseDto login(LoginRequestDto loginReq) {
 
@@ -53,7 +90,14 @@ public class HrServiceImpl implements HrService{
         return loginRes;
     }
     
-	// --------- ADD EMPLOYEE ----------
+	                                       // --------- ADD EMPLOYEE ----------
+    /**
+     * Adds a new employee to the system.
+     *
+     * @param addEmpReq DTO containing new employee information
+     * @return AddEmployeeResponseDto containing saved employee details
+     * @throws CustomeException if an employee with the same email already exists
+     */
     @Override
     public AddEmployeeResponseDto addEmployee(AddEmployeeRequestDto addEmpReq) {
 
@@ -75,6 +119,13 @@ public class HrServiceImpl implements HrService{
 
         return addEmpRes;
     }
+                                       // --------- EMPLOYEE LIST SECTION ----------
+    /**
+     * Retrieves the list of all employees, excluding admin and HR roles.
+     *
+     * @return List of EmployeeDetailsResponseDto representing all employees
+     * @throws CustomeException if no employee records are found
+     */
     @Override
     public List<EmployeeDetailsResponseDto> getEmployeeList() {
 		
@@ -93,7 +144,14 @@ public class HrServiceImpl implements HrService{
 	    
 	    return empListRes;
 	}
-
+                                // --------- GET SINGLE EMPLOYEE SECTION ----------
+    /**
+     * Fetches details of a specific employee by ID.
+     *
+     * @param id the employee ID
+     * @return EmployeeDetailsResponseDto with employee information
+     * @throws CustomeException if employee is not found
+     */
 	@Override
 	public EmployeeDetailsResponseDto getEmployee(Long id) {
 
@@ -101,14 +159,28 @@ public class HrServiceImpl implements HrService{
 		return mapper.map(emp, EmployeeDetailsResponseDto.class);
 		
 	}
-
+	                          // ---------  DELETE EMPLOYEE SECTION ----------
+	 /**
+     * Deletes an employee record from the database.
+     *
+     * @param id the employee ID
+     * @return confirmation message after deletion
+     */
 	@Override
 	public String deleteById(Long id) {
 		empRepo.deleteById(id);
 		return id+" Employee Deleted Successfully";
 	}
 	
-	 //downloading payslip using payslip id
+	                          // ---------  PAYSLIP DOWNLOAD SECTION ----------
+	 /**
+     * Downloads a payslip PDF file for a given payslip ID.
+     *
+     * @param payslipId ID of the payslip
+     * @return byte array representing the payslip PDF
+     * @throws Exception if file reading fails or payslip not found
+     * @throws CustomeException if payslip does not exist
+     */
 	@Override
 	 public byte[] downloadPayslip(Long payslipId) throws Exception {
         Payslip p = payslipRepo.findById(payslipId)
@@ -119,6 +191,14 @@ public class HrServiceImpl implements HrService{
     }
 	 
 	 //getting list of payslips of employee using employee id
+	
+	 /**
+     * Retrieves the list of payslips associated with a specific employee.
+     *
+     * @param employeeId the employee ID
+     * @return list of PayslipDto representing payslip details
+     * @throws CustomeException if payslip list is not found
+     */
 	@Override
      public List<PayslipDto> listPayslipsForEmployee(Long employeeId) {
         List<Payslip> payslips = payslipRepo.findByEmployeeId(employeeId);
@@ -131,7 +211,15 @@ public class HrServiceImpl implements HrService{
                                         .toList();
         return paySlipDtos;
     }
-
+	                              // ---------  ATTENDANCE SECTION  ----------
+	 /**
+     * Updates the attendance (days present) of a specific employee.
+     *
+     * @param id the employee ID
+     * @param days the number of days the employee was present
+     * @return EmployeeDetailsResponseDto containing updated attendance info
+     * @throws CustomeException if employee not found
+     */
 	@Override
 	public EmployeeDetailsResponseDto addAttendence(Long id, int days) {
 		
@@ -142,7 +230,15 @@ public class HrServiceImpl implements HrService{
 		return updateEmpDto;
 	}
 
-    // ✅ ---------- UPDATE EMPLOYEE DETAILS ----------
+                            // ---------- UPDATE EMPLOYEE DETAILS ----------
+	 /**
+     * Updates existing employee details in the system.
+     *
+     * @param id ID of the employee to be updated
+     * @param updateReq DTO containing updated employee information
+     * @return EmployeeDetailsResponseDto containing updated employee details
+     * @throws CustomeException if employee not found
+     */
     @Override
     public EmployeeDetailsResponseDto updateEmployee(Long id, AddEmployeeRequestDto updateReq) {
         Employee emp = empRepo.findById(id)
