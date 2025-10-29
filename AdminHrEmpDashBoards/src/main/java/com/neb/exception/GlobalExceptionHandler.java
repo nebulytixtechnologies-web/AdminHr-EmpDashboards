@@ -5,6 +5,43 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 
+/**
+ * ---------------------------------------------------------------
+ * File Name   : GlobalExceptionHandler.java
+ * Package     : com.neb.exception
+ * ---------------------------------------------------------------
+ * Purpose :
+ *   This class provides centralized exception handling for the
+ *   entire application using Spring’s @ControllerAdvice feature.
+ *
+ * Description :
+ *   - It catches exceptions thrown from any controller and returns
+ *     well-structured error responses to the client.
+ *   - It improves error management by avoiding repetitive try-catch
+ *     blocks across controllers.
+ *
+ * Handled Exceptions :
+ *   1. CustomeException :
+ *        → Handles custom business exceptions.
+ *        → Returns HTTP 400 (Bad Request) with a descriptive message.
+ *
+ *   2. RuntimeException :
+ *        → Handles unexpected runtime errors.
+ *        → Returns HTTP 500 (Internal Server Error) with details.
+ *
+ * Methods :
+ *   handleCustomException(CustomeException ex, WebRequest request)
+ *       → Creates and returns an ErrorResponse for custom exceptions.
+ *
+ *   handleRuntimeException(RuntimeException ex, WebRequest request)
+ *       → Creates and returns an ErrorResponse for general runtime errors.
+ *
+ * Result :
+ *   This class ensures that all application errors are handled
+ *   in a consistent, informative, and user-friendly manner.
+ * ---------------------------------------------------------------
+ */
+
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
