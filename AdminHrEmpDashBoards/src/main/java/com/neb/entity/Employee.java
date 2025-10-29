@@ -1,3 +1,21 @@
+/**
+ * --------------------------------------------------------------
+ * Purpose :
+ *   Represents an employee in the organization.
+ *   Stores personal, job, and bank details of each employee.
+ *
+ * Description :
+ *   - This class is a JPA entity mapped to the "employees" table.
+ *   - Contains employee details such as name, email, job role,
+ *     salary, and banking info.
+ *   - Maintains relationships with Work and Payslip entities.
+ *
+ * Relationships :
+ *   ✅ One employee can have many works (OneToMany with Work)
+ *   ✅ One employee can have many payslips (OneToMany with Payslip)
+ * --------------------------------------------------------------
+ */
+
 package com.neb.entity;
 
 import java.time.LocalDate;
@@ -21,10 +39,9 @@ public class Employee {
     private String mobile;
     private String cardNumber;
 
-    //This is for login role (admin/hr/employee)
-    private String loginRole;  
-    private String jobRole; // intern/developer/cloud engineer/hr
-    private String domain;//Java/.Net/Python
+    private String loginRole;  // Role type (admin/hr/employee)
+    private String jobRole;    // Position (intern/developer/hr)
+    private String domain;     // Department (Java/.Net/Python)
     private String gender;
     private LocalDate joiningDate;
     private Double salary;
@@ -32,6 +49,7 @@ public class Employee {
     private int paidLeaves;
     private String password;
     
+    // Bank and tax-related details
     private String bankAccountNumber;
     private String bankName;
     private String pfNumber;
@@ -40,9 +58,11 @@ public class Employee {
     private String epsNumber;
     private String esiNumber;
 
+    // One employee can have multiple work records
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Work> works = new ArrayList<>();
 
+    // One employee can have multiple payslips
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Payslip> payslips = new ArrayList<>();
 }

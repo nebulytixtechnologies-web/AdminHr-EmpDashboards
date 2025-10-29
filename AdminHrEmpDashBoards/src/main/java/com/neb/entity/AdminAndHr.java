@@ -1,14 +1,19 @@
+/**
+ * --------------------------------------------------------------
+ * Purpose :
+ *   Represents the Admin and HR users who can log in to the system.
+ *
+ * Description :
+ *   - Stores login details like email, password, and role.
+ *   - Role can be ADMIN, HR, or EMPLOYEE.
+ *   - Each mail ID must be unique.
+ * --------------------------------------------------------------
+ */
+
 package com.neb.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
 @Data
@@ -16,20 +21,19 @@ import lombok.RequiredArgsConstructor;
 @AllArgsConstructor
 public class AdminAndHr {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
-	
-	@Column(unique = true, nullable = false)
-	@NonNull
-	private String mailId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-	@Column(nullable = false)
-	@NonNull
-	private String password;
+    @Column(unique = true, nullable = false)
+    @NonNull
+    private String mailId;   // Unique email ID for login
 
-	@Column(nullable = false)
-	@NonNull
-	private String role; // ADMIN, HR, EMPLOYEE
-	
+    @Column(nullable = false)
+    @NonNull
+    private String password; // User password
+
+    @Column(nullable = false)
+    @NonNull
+    private String role;     // Role type (ADMIN, HR, EMPLOYEE)
 }
