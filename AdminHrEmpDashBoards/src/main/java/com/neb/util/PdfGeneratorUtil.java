@@ -56,7 +56,7 @@ public class PdfGeneratorUtil {
         document.open();
 
         // Add company logo//E:/NEBULYTIX TECHNOLOGIES/files/nebTechLogo.jpg
-        Image logo = Image.getInstance("C:\\\\path\\\\to\\\\NebulytixLogo.jpg");//
+        Image logo = Image.getInstance("C:\\path\\to\\NebulytixLogo.jpg");
         logo.scaleToFit(200f, 200f);
         logo.setAlignment(Element.ALIGN_RIGHT);
         document.add(logo);
@@ -68,7 +68,7 @@ public class PdfGeneratorUtil {
         // Company header
         document.add(new Paragraph("NEBULYTIX TECHNOLOGIES PVT LTD", boldFont));
         document.add(new Paragraph("Payslip for the month: " + p.getPayslipMonth(), normalFont));
-        document.add(new Paragraph("Dear " + emp.getFirstName() + " " + emp.getLastName() + " : " + emp.getId(), normalFont));
+        document.add(new Paragraph("Dear " + emp.getFirstName() + " " + emp.getLastName() + " : " + emp.getCardNumber(), normalFont));
         document.add(new Paragraph("\n"));
 
      // ========================= Table 1 – Employee Info =========================
