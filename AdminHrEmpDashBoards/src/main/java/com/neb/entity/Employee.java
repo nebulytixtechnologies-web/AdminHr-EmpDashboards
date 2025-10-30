@@ -21,12 +21,18 @@ package com.neb.entity;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
+
 import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
 @Table(name = "employees")
 @Data
+@SQLDelete(sql = "update employees set emp_active='inactive' where id=?")
+@SQLRestriction("emp_active<> 'inactive'")
 public class Employee {
 
     @Id
@@ -57,6 +63,7 @@ public class Employee {
     private String uanNumber;
     private String epsNumber;
     private String esiNumber;
+    private String empActive = "active";
 
     // One employee can have multiple work records
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)

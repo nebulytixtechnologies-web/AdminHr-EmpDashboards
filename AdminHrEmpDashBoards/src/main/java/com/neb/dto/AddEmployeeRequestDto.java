@@ -56,6 +56,7 @@ public class AddEmployeeRequestDto {
     private int paidLeaves;
     private String password;
     
+    
     private String bankAccountNumber;
     private String bankName;
     private String pfNumber;
