@@ -55,8 +55,8 @@ public class PdfGeneratorUtil {
         PdfWriter.getInstance(document, baos);
         document.open();
 
-        // Add company logo
-        Image logo = Image.getInstance("C:\\path\\to\\NebulytixLogo.jpg");
+        // Add company logo//E:/NEBULYTIX TECHNOLOGIES/files/nebTechLogo.jpg
+        Image logo = Image.getInstance("C:\\\\path\\\\to\\\\NebulytixLogo.jpg");//
         logo.scaleToFit(200f, 200f);
         logo.setAlignment(Element.ALIGN_RIGHT);
         document.add(logo);
@@ -71,9 +71,101 @@ public class PdfGeneratorUtil {
         document.add(new Paragraph("Dear " + emp.getFirstName() + " " + emp.getLastName() + " : " + emp.getId(), normalFont));
         document.add(new Paragraph("\n"));
 
-        // Employee details table, salary table, and tax details table
-        // (each section formatted using PdfPTable and helper method)
-        // ...
+     // ========================= Table 1 – Employee Info =========================
+        PdfPTable table1 = new PdfPTable(2);
+        table1.setWidthPercentage(100f);
+
+        table1.addCell(createCellOuterColumnBorders("Location: " + p.getLocation(), normalFont, true, true, true, false));
+        table1.addCell(createCellOuterColumnBorders("P.F.No: " + emp.getPfNumber(), normalFont, true, false, true, false));
+
+        table1.addCell(createCellOuterColumnBorders("Bank A/C No: " + emp.getBankAccountNumber()
+                + "   Bank: " + emp.getBankName(), normalFont, false, true, true, false));
+        table1.addCell(createCellOuterColumnBorders("E.P.S No: " + emp.getEpsNumber(), normalFont, false, false, true, false));
+
+        table1.addCell(createCellOuterColumnBorders("No. of days paid: " + emp.getDaysPresent(), normalFont, false, true, true, false));
+        table1.addCell(createCellOuterColumnBorders("PAN: " + emp.getPanNumber(), normalFont, false, false, true, false));
+
+        table1.addCell(createCellOuterColumnBorders("", normalFont, false, true, true, false));
+        table1.addCell(createCellOuterColumnBorders("UAN: " + emp.getUanNumber(), normalFont, false, false, true, false));
+
+        table1.addCell(createCellOuterColumnBorders("", normalFont, false, true, true, false));
+        table1.addCell(createCellOuterColumnBorders("ESI No.: " + emp.getEsiNumber(), normalFont, false, false, true, false));
+
+        table1.addCell(createCellOuterColumnBorders("", normalFont, false, true, true, true));
+        table1.addCell(createCellOuterColumnBorders("DOJ: " + emp.getJoiningDate(), normalFont, false, false, true, true));
+
+        document.add(table1);
+        document.add(new Paragraph("\n"));
+
+        // ========================= Table 2 – Earnings / Deductions =========================
+        PdfPTable table2 = new PdfPTable(3);
+        table2.setWidthPercentage(100f);
+
+        // Header row//last changed from false to true
+        table2.addCell(createCellOuterColumnBorders("Earnings", boldFont, true, true, true, true));
+        table2.addCell(createCellOuterColumnBorders("Statutory Deductions", boldFont, true, false, true, true));
+        table2.addCell(createCellOuterColumnBorders("Scheme Deductions", boldFont, true, false, true, true));
+
+        // Data rows
+        table2.addCell(createCellOuterColumnBorders("Basic: " + p.getBasic(), normalFont, false, true, true, false));
+        table2.addCell(createCellOuterColumnBorders("PF: " + p.getPfDeduction(), normalFont, false, false, true, false));
+        table2.addCell(createCellOuterColumnBorders("", normalFont, false, false, true, false));
+
+        table2.addCell(createCellOuterColumnBorders("HRA: " + p.getHra(), normalFont, false, true, true, false));
+        table2.addCell(createCellOuterColumnBorders("PROFTAX: " + p.getProfTaxDeduction(), normalFont, false, false, true, false));
+        table2.addCell(createCellOuterColumnBorders("", normalFont, false, false, true, false));
+
+        table2.addCell(createCellOuterColumnBorders("Flexi: " + p.getFlexi(), normalFont, false, true, true, false));
+        table2.addCell(createCellOuterColumnBorders("", normalFont, false, false, true, false));
+        table2.addCell(createCellOuterColumnBorders("", normalFont, false, false, true, false));
+
+        // Total row
+        table2.addCell(createCellOuterColumnBorders("Earnings (Total): " + p.getGrossSalary(), normalFont, true, true, true, true));
+        table2.addCell(createCellOuterColumnBorders("Deductions (Total): " + p.getTotalDeductions(), normalFont, true, false, true, true));
+        table2.addCell(createCellOuterColumnBorders("Net Pay: " + p.getNetSalary(), normalFont, true, false, true, true));
+
+        document.add(table2);
+        document.add(new Paragraph("\n"));
+
+        // ========================= Table 3 – Tax / Perks =========================
+        PdfPTable table3 = new PdfPTable(4);
+        table3.setWidthPercentage(100f);
+
+        // Header row
+        table3.addCell(createCellOuterColumnBorders("Perk Details", boldFont, true, true, true, true));
+        table3.addCell(createCellOuterColumnBorders("Any other Income", boldFont, true, false, true, true));
+        table3.addCell(createCellOuterColumnBorders("Annual exemption", boldFont, true, false, true, true));
+        table3.addCell(createCellOuterColumnBorders("Form 16 Summary", boldFont, true, false, true, true));
+
+        // Data rows – only last column contains data
+        table3.addCell(createCellOuterColumnBorders("", normalFont, false, true, true, false));
+        table3.addCell(createCellOuterColumnBorders("", normalFont, false, false, true, false));
+        table3.addCell(createCellOuterColumnBorders("", normalFont, false, false, true, false));
+        table3.addCell(createCellOuterColumnBorders("Gross Salary: " + p.getGrossSalary(), normalFont, false, false, true, false));
+
+        table3.addCell(createCellOuterColumnBorders("", normalFont, false, true, true, false));
+        table3.addCell(createCellOuterColumnBorders("", normalFont, false, false, true, false));
+        table3.addCell(createCellOuterColumnBorders("", normalFont, false, false, true, false));
+        table3.addCell(createCellOuterColumnBorders("Balance: " + p.getBalance(), normalFont, false, false, true, false));
+
+        table3.addCell(createCellOuterColumnBorders("", normalFont, false, true, true, false));
+        table3.addCell(createCellOuterColumnBorders("", normalFont, false, false, true, false));
+        table3.addCell(createCellOuterColumnBorders("", normalFont, false, false, true, false));
+        table3.addCell(createCellOuterColumnBorders("Agg Deduction: " + p.getAggrgDeduction(), normalFont, false, false, true, false));
+
+        table3.addCell(createCellOuterColumnBorders("", normalFont, false, true, true, false));
+        table3.addCell(createCellOuterColumnBorders("", normalFont, false, false, true, false));
+        table3.addCell(createCellOuterColumnBorders("", normalFont, false, false, true, false));
+        table3.addCell(createCellOuterColumnBorders("Income under Hd Salary: " + p.getIncHdSalary(), normalFont, false, false, true, false));
+
+        table3.addCell(createCellOuterColumnBorders("", normalFont, true, true, true, true));
+        table3.addCell(createCellOuterColumnBorders("", normalFont, true, false, true, true));
+        table3.addCell(createCellOuterColumnBorders("", normalFont, true, false, true, true));
+        table3.addCell(createCellOuterColumnBorders("Tax credit: " + p.getTaxCredit(), normalFont, true, false, true, true));
+
+        document.add(table3);
+
+        document.add(new Paragraph("\n"));
 
         // Footer note
         document.add(new Paragraph("This is computer generated. Does not require seal/signature.", normalFont));
