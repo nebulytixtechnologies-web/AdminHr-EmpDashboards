@@ -31,8 +31,8 @@ import lombok.Data;
 @Entity
 @Table(name = "employees")
 @Data
-@SQLDelete(sql = "update employees set emp_active='inactive' where id=?")
-@SQLRestriction("emp_active<> 'inactive'")
+@SQLDelete(sql = "update employees set emp_status='inactive' where id=?")
+@SQLRestriction("emp_status<> 'inactive'")
 public class Employee {
 
     @Id
@@ -63,7 +63,7 @@ public class Employee {
     private String uanNumber;
     private String epsNumber;
     private String esiNumber;
-    private String empActive = "active";
+    private String empStatus = "active";
 
     // One employee can have multiple work records
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
