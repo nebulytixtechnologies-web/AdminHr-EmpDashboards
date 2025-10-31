@@ -3,6 +3,7 @@ package com.neb.service.impl;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -133,7 +134,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		Payslip p = new Payslip();
         p.setEmployee(emp);
         p.setPayslipMonth(monthYear);
-        p.setGeneratedDate(LocalDate.now());
+        p.setGeneratedDate(LocalDateTime.now());
         p.setLocation("FLAT NO 501B,PSR PRIME TOWERS,BESIDE DLF,GACHIBOWLI,500032");
 
         // Salary Calculations

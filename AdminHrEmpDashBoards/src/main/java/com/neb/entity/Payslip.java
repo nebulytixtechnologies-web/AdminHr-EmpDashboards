@@ -21,6 +21,8 @@
 package com.neb.entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -34,7 +36,7 @@ public class Payslip {
     private Long id;
 
     private String payslipMonth;      // Example: "August 2025"
-    private LocalDate generatedDate;  // Payslip generation date
+    private LocalDateTime generatedDate;  // Payslip generation date
 
     // Salary breakdown
     private Double basic;

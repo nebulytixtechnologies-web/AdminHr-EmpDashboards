@@ -19,6 +19,7 @@ import lombok.*;
 @Data
 @RequiredArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class AdminAndHr {
 
     @Id

@@ -1,6 +1,7 @@
 package com.neb.dto;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import com.neb.entity.Employee;
 import com.neb.entity.Payslip;
@@ -45,7 +46,7 @@ public class PayslipDto {
 
     private Long id;
     private String payslipMonth;
-    private LocalDate generatedDate;
+    private LocalDateTime generatedDate;
 
     // salary breakdown
     private Double basic;
