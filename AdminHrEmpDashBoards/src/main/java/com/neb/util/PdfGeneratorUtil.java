@@ -60,7 +60,8 @@ public class PdfGeneratorUtil {
         // Add company logo (with file check)
         // ---------------------------------------------------------
         try {
-            String logoPath = "C:/path/to/NebulytixLogo.jpg"; // ✅ update this to your logo file path
+        	//  C:/path/to/NebulytixLogo.jpg
+            String logoPath = "E:/NEBULYTIX TECHNOLOGIES/files/nebTechLogo.jpg"; // ✅ update this to your logo file path
             File file = new File(logoPath);
             if (file.exists()) {
                 Image logo = Image.getInstance(logoPath);

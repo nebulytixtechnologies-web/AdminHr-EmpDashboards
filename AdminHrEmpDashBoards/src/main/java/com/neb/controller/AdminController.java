@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +23,8 @@ import com.neb.dto.EmployeeDetailsResponseDto;
 import com.neb.dto.EmployeeResponseDto;
 import com.neb.dto.LoginRequestDto;
 import com.neb.dto.ResponseMessage;
+import com.neb.dto.UpdateEmployeeRequestDto;
+import com.neb.dto.UpdateEmployeeResponseDto;
 import com.neb.dto.WorkResponseDto;
 import com.neb.service.AdminService;
 
@@ -139,5 +143,20 @@ public class AdminController {
 	        List<WorkResponseDto> works = adminService.getWorkByEmployee(empId);
 	        return ResponseEntity.ok(new ResponseMessage<>(200, "OK", "Work fetched for employee", works));
 	    }
+	    
+	    @DeleteMapping("/delete/hr/{id}")//http://localhost:5054/api/admin/delete/hr/3
+	    public ResponseEntity<ResponseMessage<?>> deleteHr(@PathVariable Long id){
+	    	String deleteRes = adminService.deleteHr(id);
+	    	return ResponseEntity.ok(new ResponseMessage<>(200, "OK", "hr deleted successfully", deleteRes));
+	    }
+	    
+	    @PutMapping("/update/hr/{id}")//http://localhost:5054/api/admin/update/hr/4
+		public ResponseEntity<ResponseMessage<UpdateEmployeeResponseDto>> updateHr(@PathVariable Long id,@RequestBody UpdateEmployeeRequestDto updateReq){
+			
+			UpdateEmployeeResponseDto updatedhrRes = adminService.updateHrDetails(id, updateReq);
+			
+			return ResponseEntity.ok(new ResponseMessage<UpdateEmployeeResponseDto>(HttpStatus.OK.value(), HttpStatus.OK.name(), "hr details updated successfully", updatedhrRes));
+		}
+	    
 	 
 }

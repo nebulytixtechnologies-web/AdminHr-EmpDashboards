@@ -72,4 +72,7 @@ public interface AdminService {
 
     // For fetching work details of a specific employee
     public List<WorkResponseDto> getWorkByEmployee(Long empId);
+    
+    public String deleteHr(Long id);
+    public UpdateEmployeeResponseDto updateHrDetails(Long empId,UpdateEmployeeRequestDto updateReq);
 }

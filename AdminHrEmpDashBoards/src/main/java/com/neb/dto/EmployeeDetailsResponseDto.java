@@ -56,5 +56,4 @@ public class EmployeeDetailsResponseDto {
     private int daysPresent;
     private int paidLeaves;
     
-    
 }

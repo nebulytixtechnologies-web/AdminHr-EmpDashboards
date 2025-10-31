@@ -2,6 +2,7 @@ package com.neb.service.impl;
 import java.time.LocalDate;
 //original 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -15,6 +16,8 @@ import com.neb.dto.AddWorkRequestDto;
 import com.neb.dto.EmployeeDetailsResponseDto;
 import com.neb.dto.EmployeeResponseDto;
 import com.neb.dto.LoginRequestDto;
+import com.neb.dto.UpdateEmployeeRequestDto;
+import com.neb.dto.UpdateEmployeeResponseDto;
 import com.neb.dto.WorkResponseDto;
 import com.neb.entity.Employee;
 import com.neb.entity.Work;
@@ -229,4 +232,47 @@ public class AdminServiceImpl implements AdminService{
         return dto;
     }
 
+	@Override
+	public String deleteHr(Long id) {
+		
+		Optional<Employee> emp = empRepo.findById(id);	
+		if(emp.isPresent()) {
+			empRepo.deleteById(id);
+			return "Hr deleted with id:"+id;
+		}
+		else {
+			throw new CustomeException("Hr not found with id :"+id);
+		}
+	}
+
+	@Override
+	public UpdateEmployeeResponseDto updateHrDetails(Long empId, UpdateEmployeeRequestDto updateReq) {
+		
+		Employee hr = empRepo.findById(empId).orElseThrow(()->new CustomeException("hr not found with id :"+empId));
+		hr.setFirstName(updateReq.getFirstName());
+		hr.setLastName(updateReq.getLastName());
+		hr.setEmail(updateReq.getEmail());
+		hr.setMobile(updateReq.getMobile());
+		hr.setCardNumber(updateReq.getCardNumber());
+		hr.setLoginRole(updateReq.getLoginRole());
+		hr.setJobRole(updateReq.getJobRole());
+		hr.setDomain(updateReq.getDomain());
+		hr.setGender(updateReq.getGender());
+		hr.setJoiningDate(updateReq.getJoiningDate());
+		hr.setSalary(updateReq.getSalary());
+		hr.setDaysPresent(updateReq.getDaysPresent());
+		hr.setPaidLeaves(updateReq.getPaidLeaves());
+		hr.setBankAccountNumber(updateReq.getBankAccountNumber());
+		hr.setBankName(updateReq.getBankName());
+		hr.setPfNumber(updateReq.getPfNumber());
+		hr.setPanNumber(updateReq.getPanNumber());
+		hr.setUanNumber(updateReq.getUanNumber());
+		hr.setEpsNumber(updateReq.getEpsNumber());
+		hr.setEsiNumber(updateReq.getEsiNumber());
+		
+		Employee emp = empRepo.save(hr);
+		UpdateEmployeeResponseDto updateHrRes = mapper.map(emp, UpdateEmployeeResponseDto.class);
+		return updateHrRes;
+	}
+	
 	}
