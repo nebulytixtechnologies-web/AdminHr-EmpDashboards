@@ -55,5 +55,7 @@ public class EmployeeDetailsResponseDto {
     private Double salary;
     private int daysPresent;
     private int paidLeaves;
+    private String loginRole;
+   
     
 }

@@ -274,5 +274,12 @@ public class AdminServiceImpl implements AdminService{
 		UpdateEmployeeResponseDto updateHrRes = mapper.map(emp, UpdateEmployeeResponseDto.class);
 		return updateHrRes;
 	}
+	@Override
+	public EmployeeDetailsResponseDto getEmployee(Long id) {
+
+		Employee emp = empRepo.findById(id).orElseThrow(()->new CustomeException("Employee not founce wuith id :"+id));
+		return mapper.map(emp, EmployeeDetailsResponseDto.class);
+		
+	}
 	
 	}

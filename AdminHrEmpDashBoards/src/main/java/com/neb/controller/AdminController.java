@@ -4,7 +4,10 @@ package com.neb.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,12 +24,17 @@ import com.neb.dto.AddEmployeeResponseDto;
 import com.neb.dto.AddWorkRequestDto;
 import com.neb.dto.EmployeeDetailsResponseDto;
 import com.neb.dto.EmployeeResponseDto;
+import com.neb.dto.GeneratePayslipRequest;
 import com.neb.dto.LoginRequestDto;
+import com.neb.dto.PayslipDto;
 import com.neb.dto.ResponseMessage;
 import com.neb.dto.UpdateEmployeeRequestDto;
 import com.neb.dto.UpdateEmployeeResponseDto;
 import com.neb.dto.WorkResponseDto;
+import com.neb.entity.Payslip;
 import com.neb.service.AdminService;
+import com.neb.service.EmployeeService;
+import com.neb.service.HrService;
 
 /**
  * AdminController handles all administrative operations for the AdminHrEmpDashBoards system.
@@ -46,6 +54,11 @@ public class AdminController {
 
 	@Autowired
 	private AdminService adminService;
+	@Autowired
+	private HrService hrService;
+	
+	@Autowired
+	private EmployeeService employeeService;
 	
 	 /**
      * Handles admin login requests.
@@ -157,6 +170,78 @@ public class AdminController {
 			
 			return ResponseEntity.ok(new ResponseMessage<UpdateEmployeeResponseDto>(HttpStatus.OK.value(), HttpStatus.OK.name(), "hr details updated successfully", updatedhrRes));
 		}
+	    
+	    @GetMapping("/getEmp/{id}")
+		public ResponseEntity<ResponseMessage<EmployeeDetailsResponseDto>> getEmployee(@PathVariable Long id){
+			
+			EmployeeDetailsResponseDto employee = adminService.getEmployee(id);
+		
+			
+			return ResponseEntity.ok(new ResponseMessage<EmployeeDetailsResponseDto>(HttpStatus.OK.value(), HttpStatus.OK.name(), " Employee fetched successfully", employee));
+		}
+		 /**
+	     * Downloads an employee's payslip as a PDF file.
+	     *
+	     * @param id the ID of the payslip
+	     * @return a PDF file containing the payslip
+	     * @throws Exception if the payslip cannot be generated or retrieved
+	     */
+		@GetMapping("/payslip/{id}/download")
+	    public ResponseEntity<byte[]> download(@PathVariable Long id) throws Exception {
+	        byte[] pdf = hrService.downloadPayslip(id);
+
+	        HttpHeaders headers = new HttpHeaders();
+	        headers.setContentType(MediaType.APPLICATION_PDF);
+	        headers.setContentDisposition(ContentDisposition
+	            .attachment()
+	            .filename("payslip_" + id + ".pdf")
+	            .build());
+
+	        return ResponseEntity.ok()
+	                             .headers(headers)
+	                             .body(pdf);
+	    }
+
+	    /**
+	     * Fetches all payslips of a specific employee.
+	     *
+	     * @param employeeId the employee's ID
+	     * @return list of payslips for the employee
+	     */
+	    @GetMapping("/payslip/{employeeId}")
+	    public ResponseEntity<List<PayslipDto>> listPayslips(@PathVariable Long employeeId) {
+	        List<PayslipDto> payslips = hrService.listPayslipsForEmployee(employeeId);
+	        return ResponseEntity.ok(payslips);
+	    }
+	    
+	    /**
+	     * Generates a new payslip for a specific employee and month.
+	     *
+	     * @param request contains employee ID and month-year
+	     * @return generated payslip details
+	     * @throws Exception if payslip generation fails
+	     */
+	    @PostMapping("/payslip/generate")
+	    public ResponseEntity<PayslipDto> generate(@RequestBody GeneratePayslipRequest request) throws Exception {
+	        Payslip p = employeeService.generatePayslip(request.getEmployeeId(), request.getMonthYear());
+	        PayslipDto dto = PayslipDto.fromEntity(p);
+	        return ResponseEntity.ok(dto);
+	    }
+		 
+	    /**
+	     * Updates the attendance (number of working days) for an employee.
+	     *
+	     * @param empId the employee's ID
+	     * @param days  number of working days
+	     * @return updated employee details
+	     */
+	    @PutMapping("/editEmp/{empId}/{days}")
+	    public ResponseEntity<ResponseMessage<EmployeeDetailsResponseDto>> addAttendence(@PathVariable Long empId, @PathVariable int days){
+	    	
+	    	EmployeeDetailsResponseDto updatedEmp = hrService.addAttendence(empId, days);
+	    	
+	    	return ResponseEntity.ok(new ResponseMessage<EmployeeDetailsResponseDto>(HttpStatus.OK.value(), HttpStatus.OK.name(), "employee details updated", updatedEmp));
+	    }
 	    
 	 
 }
