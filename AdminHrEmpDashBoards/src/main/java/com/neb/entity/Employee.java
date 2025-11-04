@@ -25,6 +25,8 @@ import java.util.List;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -67,6 +69,7 @@ public class Employee {
 
     // One employee can have multiple work records
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonBackReference
     private List<Work> works = new ArrayList<>();
 
     // One employee can have multiple payslips

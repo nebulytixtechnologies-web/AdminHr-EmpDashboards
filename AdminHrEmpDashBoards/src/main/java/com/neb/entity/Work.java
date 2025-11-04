@@ -22,6 +22,8 @@
 package com.neb.entity;
 
 import java.time.LocalDate;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.neb.constants.WorkStatus;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -51,5 +53,6 @@ public class Work {
     // Relation with Employee
     @ManyToOne
     @JoinColumn(name = "employee_id")
+    @JsonIgnore
     private Employee employee;
 }

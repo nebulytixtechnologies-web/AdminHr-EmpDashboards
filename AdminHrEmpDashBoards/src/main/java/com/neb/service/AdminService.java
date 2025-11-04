@@ -78,5 +78,6 @@ public interface AdminService {
 
     
     public String deleteHr(Long id);
+    
     public UpdateEmployeeResponseDto updateHrDetails(Long empId,UpdateEmployeeRequestDto updateReq);
 }

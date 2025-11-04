@@ -163,7 +163,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         p = payslipRepo.save(p);
         
         // PDF File Generation
-        String fileName = "payslip_" + emp.getCardNumber() + "_" + monthYear.replace(" ", "_") + ".pdf";
+        String fileName = emp.getCardNumber() + "_payslip" + monthYear.replace(" ", "_") + ".pdf";
         String folderPath = baseFolder + "/" + monthYear.replace(" ", "_");
         Files.createDirectories(Paths.get(folderPath));
         String fullPath = folderPath + "/" + fileName;

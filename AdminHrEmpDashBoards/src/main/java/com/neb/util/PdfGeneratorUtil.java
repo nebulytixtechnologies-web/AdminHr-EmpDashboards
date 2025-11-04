@@ -62,7 +62,7 @@ public class PdfGeneratorUtil {
         try {
         	//  C:/path/to/NebulytixLogo.jpg
            // String logoPath = "E:/NEBULYTIX TECHNOLOGIES/files/nebTechLogo.jpg"; // ✅ update this to your logo file path
-            String logoPath = "C:\\Users\\USER\\git\\AdminHr-EmpDashboards\\AdminHrEmpDashBoards\\src\\main\\webapp\\images\\NebulytixLogo.jsp"; // ✅ update this to your logo file path
+            String logoPath = "C:\\Users\\USER\\git\\AdminHr-EmpDashboards\\AdminHrEmpDashBoards\\src\\main\\webapp\\images\\NebulytixLogo.jpg"; // ✅ update this to your logo file path
             File file = new File(logoPath);
             if (file.exists()) {
                 Image logo = Image.getInstance(logoPath);
@@ -72,6 +72,7 @@ public class PdfGeneratorUtil {
             } else {
                 document.add(new Paragraph("NEBULYTIX TECHNOLOGIES PVT LTD", 
                     FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14)));
+                System.out.println("Else Part");
             }
         } catch (Exception e) {
             document.add(new Paragraph("NEBULYTIX TECHNOLOGIES PVT LTD", 
